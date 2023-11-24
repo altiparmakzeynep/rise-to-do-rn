@@ -41,15 +41,14 @@ const styles = StyleSheet.create({
     },
     currentTaskContainer: {
         width: PhoneWidth,
-        height: PhoneHeight * 0.4,
-        borderWidth: 1
+        height: PhoneHeight * 0.8,
+        borderWidth: 0
     },
     headerContainer: {
         width: PhoneWidth,
         height: "10%",
-        borderWidth: 1,
+        borderWidth: 0,
         flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: "center"
     },
     headerText: {
@@ -57,10 +56,25 @@ const styles = StyleSheet.create({
         color: "black",
         marginLeft: 15
     },
-    completedTaskContainer: {
+    taskListView: {
         width: PhoneWidth,
-        height: PhoneHeight * 0.4,
-        borderWidth: 0
-    }
+        height: "90%",
+        borderWidth: 0,
+        backgroundColor: "white",
+    },
+    taskView: {
+        flexDirection: "row",
+        borderWidth: 0,
+        width: PhoneWidth,
+        height: PhoneHeight * 0.075,
+        backgroundColor: "white",
+        alignItems: "center",
+    },
+    taskText: {
+        fontSize: 16,
+        color: "black",
+        marginLeft: 0
+    },
+   
 })
 export default styles;
