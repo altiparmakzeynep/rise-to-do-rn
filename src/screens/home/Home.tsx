@@ -6,7 +6,8 @@ import {
     View, 
     Image,
     FlatList,
-    Modal
+    Modal,
+    TextInput
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import styles from './styles';
@@ -19,6 +20,9 @@ const Home = () => {
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [taskName, setTaskName] = useState("");
+    // const [isCompleted, setIsCompleted] = useState(false);
+    const [category, setCategory] = useState("");
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -27,64 +31,132 @@ const Home = () => {
         };
     
         fetchTasks();
+        // clearAllData()
       }, []);
 
-      const handleCreateTask = async () => {
+      const handleCreateTask = async (taskName: string, isCompleted: boolean, category: string) => {
         const newTask: Task = {
           id: tasks.length + 1,
-          taskName: 'Yeni Görev',
-          isCompleted: false,
-          category: '#ffffff',
+          taskName: taskName,
+          isCompleted: isCompleted,
+          category: category,
         };
     
         await createTask(newTask);
         setTasks([...tasks, newTask]);
+        setModalVisible(false)
       };
-      
+
+    tasks.map((item) => {
+        console.log("a",item)
+    })      
     const tasksRenderItem = (item: Task) => {
         return(
             <View style = {styles.taskView}>
                 <BouncyCheckbox
                         size={30}
                         style = {{marginLeft: 15}}
-                        fillColor="pink"
+                        fillColor={item.category}
                         unfillColor="#FFFFFF"
                         iconStyle={{ borderColor: "red" }}
                         innerIconStyle={{ borderWidth: 2 }}
-                        onPress={(isChecked: boolean) => {}}
+                        isChecked = {item.isCompleted}
+                        onPress={(isChecked: boolean) => { item.isCompleted = isChecked}}
                     />
-                <Text style = {styles.taskText}>{item.taskName}</Text>
+                {
+                  item.isCompleted ?  
+                  <Text style = {styles.completedTaskText}>{item.taskName}</Text>
+                  :
+                  <Text style = {styles.taskText}>{item.taskName}</Text> 
+                }
                 <TouchableOpacity>
                     <Image 
-                        style = {{width: 20, height: 20, marginLeft: PhoneWidth * 0.5}}
+                        style = {{width: 20, height: 20, marginLeft: 10}}
                         source={{uri: "https://cdn-icons-png.flaticon.com/512/1214/1214428.png"}}></Image>
                 </TouchableOpacity>
             </View>
         )
     }
+    const modalRender = () => {
+        return(
+            <Modal
+                transparent={true}
+                animationType="slide"
+                visible={modalVisible}>
+                <View style = {styles.modalView}>
+                    <Text style = {styles.headerText}>Write your task:</Text>
+                    <TextInput 
+                        onChangeText={(text) => setTaskName(text)}
+                        style = {styles.txtInput}/>
+                    <Text style = {styles.headerText}>Select task category color:</Text>
+                    <View style = {styles.catView}>
+                        <BouncyCheckbox
+                            size={30}
+                            fillColor="red"
+                            unfillColor="#FFFFFF"
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                            onPress={() =>setCategory("red")}
+                        />
+                        <BouncyCheckbox
+                            size={30}
+                            fillColor="green"
+                            unfillColor="#FFFFFF"
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                            onPress={() =>setCategory("green")}
+                        />
+                        <BouncyCheckbox
+                            size={30}
+                            fillColor="orange"
+                            unfillColor="#FFFFFF"
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                            onPress={() =>setCategory("orange")}
+                        />
+                        <BouncyCheckbox
+                            size={30}
+                            fillColor="pink"
+                            unfillColor="#FFFFFF"
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                            onPress={() =>setCategory("pink")}
+                        />
+                        <BouncyCheckbox
+                            size={30}
+                            fillColor="purple"
+                            unfillColor="#FFFFFF"
+                            iconStyle={{ borderColor: "red" }}
+                            innerIconStyle={{ borderWidth: 2 }}
+                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                            onPress={() =>setCategory("purple")}
+                        />
+                    </View>
+                    <TouchableOpacity 
+                        onPress={() => handleCreateTask(taskName, false, category)}
+                        style = {styles.createTaskButtonModal}>
+                        <Text style = {styles.buttonText}>Create</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
+
+        )
+    }
   return (
     <SafeAreaView style = {styles.container}>
-
-        {/* <Modal
-            animationType="slide"
-            style = {styles.modalView}
-            transparent={true}
-            visible={modalVisible}
-           >
-            
-        </Modal> */}
-
-
         <View style = {styles.createTaskContainer}>
             <Text style = {styles.appText}>Daily Routine Planner App</Text>
             <Text style = {styles.createTaskText}>Create a new task now:</Text>
             <TouchableOpacity 
-                onPress={() => handleCreateTask()}
+                onPress={() => setModalVisible(true)}
                 style = {styles.createTaskButton}>
                 <Text style = {styles.buttonText}>Create Task</Text>
             </TouchableOpacity>
         </View>
-
         {/* current task */}
         <View style = {styles.currentTaskContainer}>
             <View style = {styles.headerContainer}>
@@ -98,9 +170,13 @@ const Home = () => {
                         tasksRenderItem(item)
                     )}
                 />
-               
+
+                {modalRender()}
             </ScrollView>
         </View>
+        
+   
+
     </SafeAreaView>
   )
 }

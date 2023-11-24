@@ -25,3 +25,13 @@ export const createTask = async (newTask: Task): Promise<void> => {
       console.error('Error creating task in AsyncStorage:', error);
     }
   };
+
+//  export const clearAllData = async () => {
+//     try {
+//       await AsyncStorage.clear();
+//       console.log('All data cleared successfully!');
+//     } catch (error) {
+//       console.error('Error clearing data:', error);
+//     }
+//   };
+  
