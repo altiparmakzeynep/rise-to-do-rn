@@ -54,7 +54,15 @@ const styles = StyleSheet.create({
     headerText: {
         fontSize: 18,
         color: "black",
-        marginLeft: 15
+        marginLeft: 15,
+        marginTop: 20
+    },
+    catView: {
+        borderWidth: 0,
+        flexDirection: "row",
+        height: "15%",
+        marginTop: 10,
+        justifyContent: "center"
     },
     taskListView: {
         width: PhoneWidth,
@@ -70,11 +78,54 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignItems: "center",
     },
+    completedTaskText: {
+        fontSize: 16,
+        color: "black",
+        marginLeft: 0,
+        textDecorationLine: 'line-through',
+    },
     taskText: {
         fontSize: 16,
         color: "black",
-        marginLeft: 0
+        width: PhoneWidth * 0.75
+        
     },
-   
+    modalView: {
+        borderWidth: 0,
+        borderRadius: 12,
+        backgroundColor: "white",
+        width: PhoneWidth * 0.95,
+        height: PhoneHeight * 0.35,
+        marginTop: PhoneHeight * 0.35,
+        position: "absolute",
+        alignSelf: "center",
+        paddingVertical: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 7,
+        },
+        shadowOpacity: 0.43,
+        shadowRadius: 9.51,
+        elevation: 15,
+    },
+    txtInput: {
+        borderWidth: 1,
+        borderRadius: 10,
+        height: "20%",
+        width: "90%",
+        alignSelf: "center",
+        marginTop: 20
+    },
+    createTaskButtonModal: {
+        alignSelf: "center",
+        width: "75%",
+        height: "20%",
+        backgroundColor: "#F9E795",
+        borderRadius: 24,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 20
+    }
 })
 export default styles;
