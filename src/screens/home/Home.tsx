@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { PhoneWidth } from '../../config';
-import { getTasks, createTask } from '../../storage';
+import { getTasks, createTask, deleteTask, onSetIsCompleted} from '../../storage';
 import { Task } from '../../data';
 
 const Home = () => {
@@ -21,18 +21,25 @@ const Home = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [taskName, setTaskName] = useState("");
-    // const [isCompleted, setIsCompleted] = useState(false);
+    const [isCompleted, setIsCompleted] = useState(false);
     const [category, setCategory] = useState("");
+    const [update, setUpdate] = useState(false);
 
-    useEffect(() => {
-        const fetchTasks = async () => {
-          const fetchedTasks = await getTasks();
-          setTasks(fetchedTasks);
-        };
-    
+     useEffect(() => {
         fetchTasks();
-        // clearAllData()
+        setUpdate(!update)
       }, []);
+
+      //for after delete get tasks
+      useEffect(() => {
+        fetchTasks();
+        console.log("a")
+      }, [update]);
+
+     const fetchTasks = async () => {
+        const fetchedTasks = await getTasks();
+        setTasks(fetchedTasks);
+      };
 
       const handleCreateTask = async (taskName: string, isCompleted: boolean, category: string) => {
         const newTask: Task = {
@@ -47,9 +54,14 @@ const Home = () => {
         setModalVisible(false)
       };
 
-    tasks.map((item) => {
-        console.log("a",item)
-    })      
+    const onDeleteTask = async (id: number) => {
+        await deleteTask(id)
+        setUpdate(!update)
+    }
+    const handeOnSetIsCompleted = async (id: number) => {
+        await onSetIsCompleted(id)
+        setUpdate(!update)
+    }
     const tasksRenderItem = (item: Task) => {
         return(
             <View style = {styles.taskView}>
@@ -61,7 +73,7 @@ const Home = () => {
                         iconStyle={{ borderColor: "red" }}
                         innerIconStyle={{ borderWidth: 2 }}
                         isChecked = {item.isCompleted}
-                        onPress={(isChecked: boolean) => { item.isCompleted = isChecked}}
+                        onPress={() => {handeOnSetIsCompleted(item.id)}}
                     />
                 {
                   item.isCompleted ?  
@@ -69,7 +81,9 @@ const Home = () => {
                   :
                   <Text style = {styles.taskText}>{item.taskName}</Text> 
                 }
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => onDeleteTask(item.id)}
+                    >
                     <Image 
                         style = {{width: 20, height: 20, marginLeft: 10}}
                         source={{uri: "https://cdn-icons-png.flaticon.com/512/1214/1214428.png"}}></Image>
@@ -137,7 +151,7 @@ const Home = () => {
                         />
                     </View>
                     <TouchableOpacity 
-                        onPress={() => handleCreateTask(taskName, false, category)}
+                        onPress={() => handleCreateTask(taskName, isCompleted, category)}
                         style = {styles.createTaskButtonModal}>
                         <Text style = {styles.buttonText}>Create</Text>
                     </TouchableOpacity>

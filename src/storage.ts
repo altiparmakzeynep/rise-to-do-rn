@@ -17,21 +17,46 @@ export const getTasks = async (): Promise<Task[]> => {
 };
 
 export const createTask = async (newTask: Task): Promise<void> => {
-    try {
+  try {
+    // görevi oluşturmadan önce 1 saniyelik gecikme
+    setTimeout(async () => {
       const tasks = await getTasks();
       tasks.push(newTask);
       await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
-    } catch (error) {
-      console.error('Error creating task in AsyncStorage:', error);
-    }
-  };
+    }, 1000); // 1000 milisaniye = 1 saniye
+  } catch (error) {
+    console.error('Error creating task in AsyncStorage:', error);
+  }
+};
 
-//  export const clearAllData = async () => {
-//     try {
-//       await AsyncStorage.clear();
-//       console.log('All data cleared successfully!');
-//     } catch (error) {
-//       console.error('Error clearing data:', error);
-//     }
-//   };
-  
+export const onSetIsCompleted = async (taskId: number): Promise<Task | null> => {
+  const tasksFromAsync = await getTasks();
+  const task = tasksFromAsync.find((task) => task.id === taskId);
+  if(task){
+    task.isCompleted = !task.isCompleted
+    await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(tasksFromAsync));
+    return task;
+  }
+  else{
+    return null;
+  }
+}
+
+export const deleteTask = async (taskId: number): Promise<Task | null> => {
+  try {
+    const tasksFromStorage = await getTasks();
+    const index = tasksFromStorage.findIndex((task) => task.id === taskId);
+
+    if (index !== -1) {
+      const deletedTask = tasksFromStorage.splice(index, 1)[0];
+      await AsyncStorage.setItem(TASKS_KEY, JSON.stringify(tasksFromStorage));
+      return deletedTask;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error deleting task in AsyncStorage:', error);
+    return null;
+  }
+};
+

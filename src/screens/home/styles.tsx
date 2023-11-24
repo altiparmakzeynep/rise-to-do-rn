@@ -83,12 +83,12 @@ const styles = StyleSheet.create({
         color: "black",
         marginLeft: 0,
         textDecorationLine: 'line-through',
+        width: PhoneWidth * 0.75
     },
     taskText: {
         fontSize: 16,
         color: "black",
         width: PhoneWidth * 0.75
-        
     },
     modalView: {
         borderWidth: 0,
