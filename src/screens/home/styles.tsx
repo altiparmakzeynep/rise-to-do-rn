@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     appText: {
         margin: 15,
         fontSize: 22,
-        color: "#F9E795",
+        color: "#98BAD5",
         fontWeight: "bold"
     },
     createTaskText: {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         width: "75%",
         height: "25%",
-        backgroundColor: "#F9E795",
+        backgroundColor: "#98BAD5",
         borderRadius: 24,
         alignItems: "center",
         justifyContent: "center",
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         backgroundColor: "white",
         width: PhoneWidth * 0.95,
-        height: PhoneHeight * 0.35,
-        marginTop: PhoneHeight * 0.35,
+        height: PhoneHeight * 0.4,
+        marginTop: PhoneHeight * 0.3,
         position: "absolute",
         alignSelf: "center",
         paddingVertical: 20,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         width: "75%",
         height: "20%",
-        backgroundColor: "#F9E795",
+        backgroundColor: "#98BAD5",
         borderRadius: 24,
         alignItems: "center",
         justifyContent: "center",
