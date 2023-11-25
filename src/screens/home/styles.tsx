@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     createTaskContainer: {
         width: PhoneWidth,
         height: PhoneHeight * 0.2,
-        borderWidth: 0,
         flexDirection: "column",
     },
     appText: {
@@ -47,7 +46,6 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: PhoneWidth,
         height: "10%",
-        borderWidth: 0,
         flexDirection: "row",
         alignItems: "center"
     },
@@ -58,7 +56,6 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     catView: {
-        borderWidth: 0,
         flexDirection: "row",
         height: "15%",
         marginTop: 10,
@@ -67,12 +64,10 @@ const styles = StyleSheet.create({
     taskListView: {
         width: PhoneWidth,
         height: "90%",
-        borderWidth: 0,
         backgroundColor: "white",
     },
     taskView: {
         flexDirection: "row",
-        borderWidth: 0,
         width: PhoneWidth,
         height: PhoneHeight * 0.075,
         backgroundColor: "white",
@@ -92,7 +87,6 @@ const styles = StyleSheet.create({
         width: PhoneWidth * 0.75
     },
     modalView: {
-        borderWidth: 0,
         borderRadius: 12,
         backgroundColor: "white",
         width: PhoneWidth * 0.95,
