@@ -59,4 +59,3 @@ export const deleteTask = async (taskId: number): Promise<Task | null> => {
     return null;
   }
 };
-
