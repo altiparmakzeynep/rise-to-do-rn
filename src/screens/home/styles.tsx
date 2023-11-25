@@ -81,12 +81,13 @@ const styles = StyleSheet.create({
     completedTaskText: {
         fontSize: 16,
         color: "black",
-        marginLeft: 0,
+        marginLeft: 10,
         textDecorationLine: 'line-through',
         width: PhoneWidth * 0.75
     },
     taskText: {
         fontSize: 16,
+        marginLeft: 10,
         color: "black",
         width: PhoneWidth * 0.75
     },
