@@ -12,7 +12,6 @@ import {
 import React, { useState, useEffect } from 'react';
 import styles from './styles';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { PhoneWidth } from '../../config';
 import { getTasks, createTask, deleteTask, onSetIsCompleted} from '../../storage';
 import { Task } from '../../data';
 
@@ -24,6 +23,7 @@ const Home = () => {
     const [isCompleted, setIsCompleted] = useState(false);
     const [category, setCategory] = useState("");
     const [update, setUpdate] = useState(false);
+    const [warnMessage, setWarnMessage] = useState("");
 
      useEffect(() => {
         fetchTasks();
@@ -48,10 +48,15 @@ const Home = () => {
           isCompleted: isCompleted,
           category: category,
         };
-    
-        await createTask(newTask);
-        setTasks([...tasks, newTask]);
-        setModalVisible(false)
+        if(taskName != ""){
+            await createTask(newTask);
+            setTasks([...tasks, newTask]);
+            setModalVisible(false)
+            setWarnMessage(" ")
+        }
+        else{
+            setWarnMessage("Please type your task's description!")
+        }
       };
 
     const onDeleteTask = async (id: number) => {
@@ -76,7 +81,7 @@ const Home = () => {
                         onPress={() => {handeOnSetIsCompleted(item.id)}}
                     />
                 {
-                  item.isCompleted ?  
+                  item.isCompleted?  
                   <Text style = {styles.completedTaskText}>{item.taskName}</Text>
                   :
                   <Text style = {styles.taskText}>{item.taskName}</Text> 
@@ -94,70 +99,79 @@ const Home = () => {
     const modalRender = () => {
         return(
             <Modal
+                testID='modal'
                 transparent={true}
                 animationType="slide"
                 visible={modalVisible}>
-                <View style = {styles.modalView}>
+                <View
+                 style = {styles.modalView}>
                     <Text style = {styles.headerText}>Write your task:</Text>
                     <TextInput 
+                        testID='taskNameInput'
                         onChangeText={(text) => setTaskName(text)}
                         style = {styles.txtInput}/>
+                    {
+                        warnMessage?
+                         <Text style = {{color: 'red', alignSelf: "center"}}>{warnMessage}</Text>
+                         :
+                         null
+                    }
                     <Text style = {styles.headerText}>Select task category color:</Text>
                     <View style = {styles.catView}>
                         <BouncyCheckbox
+                            testID='red-checkbox'
                             size={30}
                             fillColor="red"
                             unfillColor="#FFFFFF"
                             iconStyle={{ borderColor: "red" }}
                             innerIconStyle={{ borderWidth: 2 }}
-                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
                             onPress={() =>setCategory("red")}
                         />
                         <BouncyCheckbox
+                            testID='green-checkbox'
                             size={30}
                             fillColor="green"
                             unfillColor="#FFFFFF"
-                            iconStyle={{ borderColor: "red" }}
+                            iconStyle={{ borderColor: "green" }}
                             innerIconStyle={{ borderWidth: 2 }}
-                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
                             onPress={() =>setCategory("green")}
                         />
                         <BouncyCheckbox
+                            testID='orange-checkbox'
                             size={30}
                             fillColor="orange"
                             unfillColor="#FFFFFF"
-                            iconStyle={{ borderColor: "red" }}
+                            iconStyle={{ borderColor: "orange" }}
                             innerIconStyle={{ borderWidth: 2 }}
-                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
                             onPress={() =>setCategory("orange")}
                         />
                         <BouncyCheckbox
+                            testID='pink-checkbox'
                             size={30}
                             fillColor="pink"
                             unfillColor="#FFFFFF"
-                            iconStyle={{ borderColor: "red" }}
+                            iconStyle={{ borderColor: "pink" }}
                             innerIconStyle={{ borderWidth: 2 }}
-                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
                             onPress={() =>setCategory("pink")}
                         />
                         <BouncyCheckbox
+                            testID='purple-checkbox'
                             size={30}
                             fillColor="purple"
                             unfillColor="#FFFFFF"
-                            iconStyle={{ borderColor: "red" }}
+                            iconStyle={{ borderColor: "purple" }}
                             innerIconStyle={{ borderWidth: 2 }}
-                            textStyle={{ fontFamily: "JosefinSans-Regular" }}
                             onPress={() =>setCategory("purple")}
                         />
                     </View>
                     <TouchableOpacity 
+                        testID='createTaskButtonModal'
                         onPress={() => handleCreateTask(taskName, isCompleted, category)}
                         style = {styles.createTaskButtonModal}>
                         <Text style = {styles.buttonText}>Create</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
-
         )
     }
   return (
@@ -166,6 +180,7 @@ const Home = () => {
             <Text style = {styles.appText}>Daily Routine Planner App</Text>
             <Text style = {styles.createTaskText}>Create a new task now:</Text>
             <TouchableOpacity 
+                testID="createTaskButton" 
                 onPress={() => setModalVisible(true)}
                 style = {styles.createTaskButton}>
                 <Text style = {styles.buttonText}>Create Task</Text>
